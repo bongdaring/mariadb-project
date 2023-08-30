@@ -56,3 +56,4 @@ select emp_no, avg(salary), sum(salary)
 	from salaries
 group by emp_no
 having emp_no = 10060;
+
