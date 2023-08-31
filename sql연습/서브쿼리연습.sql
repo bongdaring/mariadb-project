@@ -175,9 +175,28 @@ where a.emp_no = b.emp_no
     and a.emp_no = d.emp_no
     and b.to_date = '9999-01-01'
     and d.to_date = '9999-01-01'
-    and (b.dept_no , d.salary) in (select a.dept_no, min(b.salary)
+    and (b.dept_no , d.salary) in (select a.dept_no, max(b.salary)
 										from dept_emp a, salaries b
 									where a.emp_no = b.emp_no
 										and a.to_date = '9999-01-01'
 										and b.to_date = '9999-01-01'
 									group by a.dept_no); 
+                                    
+select a.first_name, b.dept_no, c.dept_name, d.salary
+	from employees a,
+		dept_emp b,
+		departments c,
+        salaries d,
+        (select a.dept_no, max(b.salary) as max_salary
+			from dept_emp a, salaries b
+		where a.emp_no = b.emp_no
+			and a.to_date = '9999-01-01'
+			and b.to_date = '9999-01-01'
+		group by a.dept_no) e
+where a.emp_no = b.emp_no
+	and b.emp_no = c.dept_no
+    and a.emp_no = d.emp_no
+    and c.dept_no = e.dept_no
+	and b.to_date = '9999-01-01'
+	and d.to_date = '9999-01-01'
+    and d.salary = e.max_salary;
