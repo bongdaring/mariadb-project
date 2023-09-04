@@ -32,7 +32,9 @@ drop table pet;
 select * from pet;
 
 -- update: DML(U)
-update pet set name='바나나' where name='스타';
+update pet se
+
+t name='바나나' where name='스타';
 
 -- delete: DML(D)
 delete from pet where name='바나나';
