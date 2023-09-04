@@ -2,24 +2,24 @@ package test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class UpdateTest01 {
+
+public class InsertTest02 {
 
 	public static void main(String[] args) {
-		DeptVo vo = new DeptVo();
-		vo.setNo(2L);
-		vo.setName("전략기획팀");
-		boolean result = updateDepartment(vo);
-		System.out.println(result ? "성공":"실패");
+		boolean result = insertDepartment("QA팀");
+		System.out.println(result ? "성공" : "실패");
+
 	}
 
-	private static boolean updateDepartment(DeptVo vo) {
+	private static boolean insertDepartment(String name) {
 		boolean result = false;
 		
 		Connection conn = null;
-		Statement stmt = null;
+		PreparedStatement pstmt = null;
 
 		
 		try {
@@ -30,16 +30,20 @@ public class UpdateTest01 {
 			String url = "jdbc:mariadb://192.168.0.173:3307/webdb?charset=utf8";
 			conn = DriverManager.getConnection(url, "webdb", "mysql123");
 			
-			//3. Statement 객체 생성
-			stmt = conn.createStatement();
-			
-			//4. Sql 실행
+			//3. Sql 준비
 			String sql =
-					"update dept set name='" + vo.getName() + "' where no="+vo.getNo();
+					"insert into dept values(null, ?)";
 			
-			int count = stmt.executeUpdate(sql);
+			pstmt = conn.prepareStatement(sql);
 			
-			// 5. 결과 처리
+			// 4. 값 binding
+			pstmt.setString(1, name);
+			
+			// 5.SQL 실행
+			
+			int count = pstmt.executeUpdate();
+			
+			// 6. 결과 처리
 			result = count == 1;
 			
 			
@@ -50,8 +54,8 @@ public class UpdateTest01 {
 		} finally {
 			// 6. 자원정리
 			try {
-				if(stmt != null) {
-					stmt.close();
+				if(pstmt != null) {
+					pstmt.close();
 				}
 				if(conn != null) {
 					conn.close();
@@ -61,8 +65,7 @@ public class UpdateTest01 {
 			}
 		}
 		return result;
-
-	
+		
 		
 	}
 
