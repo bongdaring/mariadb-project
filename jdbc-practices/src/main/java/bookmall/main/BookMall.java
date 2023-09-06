@@ -25,14 +25,19 @@ public class BookMall {
 		insertOrderBook();
 		System.out.println("## 회원리스트 ##");
 		findAllMember();
+		System.out.println();
 		System.out.println("## 카테고리 ##");
 		findAllCategory();
+		System.out.println();
 		System.out.println("## 상품 ##");
 		findAllBook();
+		System.out.println();
 		System.out.println("## 카트 ##");
 		findAllCart();
+		System.out.println();
 		System.out.println("## 주문 ##");
 		findAllOrder();
+		System.out.println();
 		System.out.println("## 주문 도서 ##");
 		findAllOrderBook();
 	}
@@ -42,7 +47,7 @@ public class BookMall {
 		
 		for(OrderBookVo vo :list) {
 			BookVo book = new BookDao().findByNo(vo.getBookNo());
-			System.out.println("[ 도서번호:"+ vo.getBookNo() +", 책 제목:"+book.getTitle() 
+			System.out.println("[ 도서번호:"+ vo.getBookNo() +", 도서제목:"+book.getTitle() 
 			+ ", 수량:"+ vo.getCount()+ " ]");
 		}
 		
@@ -69,7 +74,7 @@ public class BookMall {
 		
 		for(BookVo vo :list) {
 			BookVo book = new BookDao().findByNo(vo.getNo());
-			System.out.println("[ 책 제목:"+book.getTitle() + ", 수량:"+ vo.getCount() 
+			System.out.println("[ 도서제목:"+book.getTitle() + ", 수량:"+ vo.getCount() 
 			+", 가격:"+book.getPrice() * vo.getCount()+ " ]");
 		}
 		
@@ -105,7 +110,7 @@ public class BookMall {
 			}
 			
 			System.out.println("[ 주문번호:" + vo.getOrderManageNo() 
-			+ ", 이름:"+memberVo.getName() +", 이메일:"+memberVo.getEmail() 
+			+ ", 주문자 이름:"+memberVo.getName() +", 주문자 이메일:"+memberVo.getEmail() 
 			+ ", 결제금액:"+ totalPrice
 			+", 배송지:"+vo.getAddress()+ " ]");
 		}
@@ -179,7 +184,7 @@ public class BookMall {
 		List<MemberVo> list = new MemberDao().findAll();
 		
 		for(MemberVo vo :list) {
-			System.out.println("[ 이름:"+vo.getName() +", 전화번호:"+vo.getPhone() + ", 이메일:"+vo.getEmail()+", 패스워드:"+vo.getPassword()+ " ]");
+			System.out.println("[ 이름:"+vo.getName() +", 전화번호:"+vo.getPhone() + ", 이메일:"+vo.getEmail()+", 비밀번호:"+vo.getPassword()+ " ]");
 		}
 	}
 
